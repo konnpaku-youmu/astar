@@ -37,8 +37,8 @@ def construct_map(map_img):
 
 def main():
     map = cv2.imread("./map_view.bmp")
-    start_pt = (300, 400)
-    end_pt = (450, 350)
+    start_pt = (460, 300)
+    end_pt = (425, 280)
 
     cv2.circle(map, start_pt, 2, (0, 0, 255), 2)
     cv2.circle(map, end_pt, 2, (255, 0, 0), 2)

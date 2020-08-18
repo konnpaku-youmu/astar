@@ -10,7 +10,7 @@ public:
         this->position[0] = x;
         this->position[1] = y;
         this->path_length = std::numeric_limits<double>::infinity();
-        this->g_score = std::numeric_limits<double>::infinity();
+        this->global_score = std::numeric_limits<double>::infinity();
         this->parent = NULL;
         this->visited = false;
     }
@@ -31,7 +31,7 @@ public:
 
     double path_length;
 
-    double g_score;
+    double global_score;
 
     Eigen::Vector2f position;
 
@@ -47,25 +47,25 @@ void solve(Node &start, Node &end, std::map<std::string, Node *> &map)
     std::list<Node *> set_of_nodes;
 
     start.path_length = 0;
-    start.g_score = start.dist(end);
+    start.global_score = start.dist(end);
 
     set_of_nodes.push_back(&start);
 
     while (!set_of_nodes.empty())
     {
-        // std::cout << set_of_nodes.size() << std::endl;
-        set_of_nodes.sort([](const Node *a, const Node *b) { return a->g_score < b->g_score; });
+        // usleep(20000);
+        set_of_nodes.sort([](const Node *a, const Node *b) { return a->global_score < b->global_score; });
 
         Node *curr_node = set_of_nodes.front();
 
-        // std::cout << curr_node->g_score << std::endl;
+        std::cout << curr_node->global_score << std::endl;
 
         // find neighbours
         for (int i = 0; i < 4; ++i)
         {
             std::stringstream _n;
-            int row = curr_node->position[0] + 5 - abs(5 * (i - 2));
-            int col = curr_node->position[1] + 5 - abs(5 * (i - 1));
+            int row = curr_node->position[0] + 2 - abs(2 * (i - 2));
+            int col = curr_node->position[1] + 2 - abs(2 * (i - 1));
             _n << row << "," << col;
 
             if (map.count(_n.str()) == 1)
@@ -74,20 +74,22 @@ void solve(Node &start, Node &end, std::map<std::string, Node *> &map)
             }
         }
 
-        if (curr_node == &end)
+        if (curr_node->dist(end) < 5)
         {
-            break;
+            end.parent = curr_node;
+            return;
         }
 
         for (auto n : curr_node->neighbours)
         {
-            if (curr_node->path_length + 1 < (*n)->path_length)
+            float tentative_score = curr_node->path_length + 0.01;
+            if (tentative_score < (*n)->path_length)
             {
                 // update neighbour
                 (*n)->visited = false;
                 (*n)->parent = curr_node;
-                (*n)->path_length = curr_node->path_length + 1;
-                (*n)->g_score = (*n)->path_length + (*n)->dist(end);
+                (*n)->path_length = tentative_score;
+                (*n)->global_score = tentative_score + (*n)->dist(end);
             }
             if (std::count(set_of_nodes.begin(), set_of_nodes.end(), (*n)) == 0)
             {
@@ -96,18 +98,16 @@ void solve(Node &start, Node &end, std::map<std::string, Node *> &map)
         }
         curr_node->visited = true;
         set_of_nodes.pop_front();
-        // sleep(1);
     }
-    // std::cout << end.parent->position << std::endl;
 }
 
 
 int main(int argc, char **argv)
 {
-    cv::Mat map_img = cv::imread("/home/hcrd/Projects/astar/map_view.bmp", CV_LOAD_IMAGE_GRAYSCALE);
+    cv::Mat map_img = cv::imread("/home/yz/Projects/astar/map_view.bmp", CV_LOAD_IMAGE_GRAYSCALE);
 
-    std::string _start_pt{"400,325"};
-    std::string _end_pt{"350,450"};
+    std::string _start_pt{"420,451"};
+    std::string _end_pt{"257,420"};
 
     std::map<std::string, Node *> map_graph;
     for (size_t row = 0; row < map_img.rows; ++row)
@@ -131,11 +131,16 @@ int main(int argc, char **argv)
         solve(*start_node, *end_node, map_graph);
 
         Node *_n = end_node;
+
         do
         {
-            std::cout << _n->position << std::endl;
+            map_img.at<uint8_t>(_n->position[0], _n->position[1]) = 192;
             _n = _n->parent;
-        }while(_n->parent != NULL);
+        }
+        while(_n->parent != NULL);
+
+        cv::imshow("Win", map_img);
+        cv::waitKey(0);
     }
     catch (const std::exception &e)
     {

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/hcrd/Projects/astar/astar.cc" "/home/hcrd/Projects/astar/build/CMakeFiles/astar.dir/astar.cc.o"
+  "/home/yz/Projects/astar/astar.cc" "/home/yz/Projects/astar/build/CMakeFiles/astar.dir/astar.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

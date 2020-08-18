@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hcrd/Projects/astar
+CMAKE_SOURCE_DIR = /home/yz/Projects/astar
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hcrd/Projects/astar/build
+CMAKE_BINARY_DIR = /home/yz/Projects/astar/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hcrd/Projects/astar/build/CMakeFiles /home/hcrd/Projects/astar/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yz/Projects/astar/build/CMakeFiles /home/yz/Projects/astar/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hcrd/Projects/astar/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yz/Projects/astar/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

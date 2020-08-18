@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=c++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/hcrd/Projects/astar/include -isystem /usr/include/opencv 
+CXX_INCLUDES = -I/home/yz/Projects/astar/include -isystem /usr/include/opencv 
 
