@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hcrd/Projects/astar/astar.cc
+unistd.h
+-
+opencv2/opencv.hpp
+-
+eigen3/Eigen/Eigen
+-
+
