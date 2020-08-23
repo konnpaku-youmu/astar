@@ -4,14 +4,15 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/yz/Projects/astar/astar.cc" "/home/yz/Projects/astar/build/CMakeFiles/astar.dir/astar.cc.o"
+  "/Users/charliehe/Projects/astar/astar.cc" "/Users/charliehe/Projects/astar/build/CMakeFiles/astar.dir/astar.cc.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "Clang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
-  "/usr/include/opencv"
+  "/usr/local/include"
+  "/usr/local/include/opencv"
   )
 
 # Targets to which this target links.

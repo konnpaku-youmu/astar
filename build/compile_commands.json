@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/Users/charliehe/Projects/astar/build",
+  "command": "/usr/bin/clang++   -I/Users/charliehe/Projects/astar/include -isystem /usr/local/include -isystem /usr/local/include/opencv  -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk   -std=c++11 -o CMakeFiles/astar.dir/astar.cc.o -c /Users/charliehe/Projects/astar/astar.cc",
+  "file": "/Users/charliehe/Projects/astar/astar.cc"
+}
+]

@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <opencv2/opencv.hpp>
-#include <eigen3/Eigen/Eigen>
+#include <eigen3/Eigen/Core>
 
 class Node
 {
@@ -58,14 +58,25 @@ void solve(Node &start, Node &end, std::map<std::string, Node *> &map)
 
         Node *curr_node = set_of_nodes.front();
 
-        std::cout << curr_node->global_score << std::endl;
+        if (curr_node->visited)
+        {
+            set_of_nodes.pop_front();
+            continue;
+        }
+
+        if (curr_node == &end)
+        {
+            return;
+        }
+
+        std::vector<int> offset = {1, 0, -1, 0, 1, -1, -1, 1};
 
         // find neighbours
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < 8; ++i)
         {
             std::stringstream _n;
-            int row = curr_node->position[0] + 2 - abs(2 * (i - 2));
-            int col = curr_node->position[1] + 2 - abs(2 * (i - 1));
+            int row = curr_node->position[0] + offset[i];
+            int col = curr_node->position[1] + offset[(i == 0) ? 7 : i - 1];
             _n << row << "," << col;
 
             if (map.count(_n.str()) == 1)
@@ -74,19 +85,12 @@ void solve(Node &start, Node &end, std::map<std::string, Node *> &map)
             }
         }
 
-        if (curr_node->dist(end) < 5)
-        {
-            end.parent = curr_node;
-            return;
-        }
-
         for (auto n : curr_node->neighbours)
         {
-            float tentative_score = curr_node->path_length + 0.01;
+            float tentative_score = curr_node->path_length + (*n)->dist(*curr_node);
             if (tentative_score < (*n)->path_length)
             {
                 // update neighbour
-                (*n)->visited = false;
                 (*n)->parent = curr_node;
                 (*n)->path_length = tentative_score;
                 (*n)->global_score = tentative_score + (*n)->dist(end);
@@ -97,17 +101,15 @@ void solve(Node &start, Node &end, std::map<std::string, Node *> &map)
             }
         }
         curr_node->visited = true;
-        set_of_nodes.pop_front();
     }
 }
 
-
 int main(int argc, char **argv)
 {
-    cv::Mat map_img = cv::imread("/home/yz/Projects/astar/map_view.bmp", CV_LOAD_IMAGE_GRAYSCALE);
+    cv::Mat map_img = cv::imread("/Users/charliehe/Projects/astar/map_view.bmp", CV_LOAD_IMAGE_GRAYSCALE);
 
-    std::string _start_pt{"420,451"};
-    std::string _end_pt{"257,420"};
+    std::string _start_pt{"385,255"};
+    std::string _end_pt{"393,105"};
 
     std::map<std::string, Node *> map_graph;
     for (size_t row = 0; row < map_img.rows; ++row)
@@ -136,8 +138,7 @@ int main(int argc, char **argv)
         {
             map_img.at<uint8_t>(_n->position[0], _n->position[1]) = 192;
             _n = _n->parent;
-        }
-        while(_n->parent != NULL);
+        } while (_n->parent != NULL);
 
         cv::imshow("Win", map_img);
         cv::waitKey(0);
